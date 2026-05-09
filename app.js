@@ -2,7 +2,7 @@
 /* Designed by SerendibWare */
 
 // API Endpoint - Change this URL to your deployed Render backend URL when in production
-const API_URL = 'http://localhost:5000/api/dansals';
+const API_URL = 'https://dansal-lanka-backend.onrender.com/api/dansals';
 
 let currentLang = 'si';
 let favorites = JSON.parse(localStorage.getItem('dansalFavs') || '[]');
