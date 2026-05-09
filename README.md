@@ -38,7 +38,7 @@
 
 1. **Clone the repository**:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/CerberusMrX/Dansal-Lanka
    cd Dansal
    ```
 
@@ -123,4 +123,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 - Icons by [Lucide](https://lucide.dev/).
 - Map data by [OpenStreetMap](https://www.openstreetmap.org/).
 
-Developed with ❤️ for Sri Lanka.
+Developed by SerendibWare
