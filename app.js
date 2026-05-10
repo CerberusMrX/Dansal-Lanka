@@ -6,12 +6,12 @@ const API_URL = 'https://dansal-lanka-backend.onrender.com/api/dansals';
 
 let currentLang = 'si';
 let favorites = JSON.parse(localStorage.getItem('dansalFavs') || '[]');
-let dansalData = [];
+let dansalData = JSON.parse(localStorage.getItem('dansalCache') || '[]');
 let map; // Leaflet map instance
 let mapMarkers = [];
 
 // ═══ INIT ═══
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
   createAmbientParticles();
   createHeroLanterns();
   createHeroFlags();
@@ -20,14 +20,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Initialize Leaflet Map
   initLeafletMap();
 
-  // Fetch data from backend
-  await fetchDansals();
+  // If we have cached data, render it immediately
+  if (dansalData.length > 0) {
+    console.log("Hydrating from cache...");
+    renderAllUI();
+  }
 
+  // Fetch fresh data in the background (non-blocking)
+  fetchDansals();
+});
+
+// Helper to render all UI components
+function renderAllUI() {
   renderSidebarCards();
   renderDansalGrid();
   renderThoranScroll();
   animateStats();
-});
+  renderMapPins();
+}
 
 // ═══ LEAFLET MAP ═══
 function initLeafletMap() {
@@ -89,18 +99,23 @@ async function fetchDansals() {
   try {
     const res = await fetch(API_URL);
     if(res.ok) {
-      dansalData = await res.json();
+      const freshData = await res.json();
+      
+      // Check if data actually changed before re-rendering
+      const dataChanged = JSON.stringify(freshData) !== JSON.stringify(dansalData);
+      
+      if (dataChanged || dansalData.length === 0) {
+        dansalData = freshData;
+        localStorage.setItem('dansalCache', JSON.stringify(dansalData));
+        renderAllUI();
+        console.log("Data updated from API");
+      }
     } else {
-      console.warn("API failed, using empty data");
-      dansalData = [];
+      console.warn("API failed, using cached/empty data");
     }
   } catch(err) {
     console.error("Fetch error:", err);
-    dansalData = [];
   }
-  
-  // Render pins after data loads
-  renderMapPins();
 }
 
 // ═══ AMBIENT PARTICLES ═══
@@ -260,13 +275,25 @@ function animateStats() {
 
   document.querySelectorAll('.stat-num').forEach(el => {
     const target = parseInt(el.dataset.count);
-    let current = 0;
-    const step = Math.ceil(target / 30) || 1;
+    let current = parseInt(el.textContent) || 0;
+    
+    if (current === target) return; // Already at target
+
+    const diff = target - current;
+    const step = diff > 0 ? Math.ceil(diff / 20) : Math.floor(diff / 20) || (diff < 0 ? -1 : 1);
+    
+    // Clear any existing timer on this element if needed (simple version)
+    if (el.dataset.timer) clearInterval(parseInt(el.dataset.timer));
+
     const timer = setInterval(() => {
       current += step;
-      if (current >= target) { current = target; clearInterval(timer); }
+      if ((step > 0 && current >= target) || (step < 0 && current <= target)) { 
+        current = target; 
+        clearInterval(timer); 
+      }
       el.textContent = current;
-    }, 30);
+    }, 40);
+    el.dataset.timer = timer;
   });
 }
 
