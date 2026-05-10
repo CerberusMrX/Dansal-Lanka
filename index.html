@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="si">
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>දන්සල් ලංකා | Dansal Lanka - වෙසක් දන්සල් සොයන්න</title>
-  <meta name="description" content="Sri Lanka's #1 Vesak Dansal finder app. Locate free food stalls, Thoran arches, Vesak Pandals and Kalapa lanterns near you."/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <meta name="description"
+    content="Sri Lanka's #1 Vesak Dansal finder app. Locate free food stalls, Thoran arches, Vesak Pandals and Kalapa lanterns near you." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <!-- Leaflet CSS for Map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- Floating ambient particles -->
@@ -23,19 +29,19 @@
         <div class="logo-icon">
           <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Lotus petals -->
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(0 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(45 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(90 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(135 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(180 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(225 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(270 24 24)"/>
-            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(315 24 24)"/>
-            <circle cx="24" cy="24" r="7" fill="#c0392b"/>
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(0 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(45 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(90 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(135 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(180 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(225 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ff9b3f" opacity="0.9" transform="rotate(270 24 24)" />
+            <ellipse cx="24" cy="30" rx="5" ry="10" fill="#ffd166" opacity="0.85" transform="rotate(315 24 24)" />
+            <circle cx="24" cy="24" r="7" fill="#c0392b" />
             <!-- Lantern on top -->
-            <rect x="21" y="4" width="6" height="10" rx="2" fill="#ffd166" stroke="#ff9b3f" stroke-width="1"/>
-            <line x1="24" y1="14" x2="24" y2="17" stroke="#ff9b3f" stroke-width="1.5"/>
-            <polygon points="24,3 22,5 26,5" fill="#ff9b3f"/>
+            <rect x="21" y="4" width="6" height="10" rx="2" fill="#ffd166" stroke="#ff9b3f" stroke-width="1" />
+            <line x1="24" y1="14" x2="24" y2="17" stroke="#ff9b3f" stroke-width="1.5" />
+            <polygon points="24,3 22,5 26,5" fill="#ff9b3f" />
           </svg>
         </div>
         <div class="logo-text">
@@ -70,10 +76,14 @@
 
     <!-- Mobile menu -->
     <div class="mobile-menu" id="mobileMenu">
-      <a href="#map-section" onclick="toggleMenu()"><span>🗺️</span> <span data-si="සිතියම" data-en="Map">සිතියම</span></a>
-      <a href="#dansals-section" onclick="toggleMenu()"><span>🍚</span> <span data-si="දන්සල්" data-en="Dansals">දන්සල්</span></a>
-      <a href="#thoran-section" onclick="toggleMenu()"><span>🏮</span> <span data-si="තොරණ සහ පන්දල්" data-en="Thoran & Pandals">තොරණ සහ පන්දල්</span></a>
-      <a href="#" onclick="toggleMenu()"><span>❤️</span> <span data-si="මගේ ප්‍රියතම" data-en="My Favorites">මගේ ප්‍රියතම</span></a>
+      <a href="#map-section" onclick="toggleMenu()"><span>🗺️</span> <span data-si="සිතියම"
+          data-en="Map">සිතියම</span></a>
+      <a href="#dansals-section" onclick="toggleMenu()"><span>🍚</span> <span data-si="දන්සල්"
+          data-en="Dansals">දන්සල්</span></a>
+      <a href="#thoran-section" onclick="toggleMenu()"><span>🏮</span> <span data-si="තොරණ සහ පන්සල්"
+          data-en="Thoran & temples">තොරණ සහ පන්දල්</span></a>
+      <a href="#" onclick="toggleMenu()"><span>❤️</span> <span data-si="මගේ ප්‍රියතම" data-en="My Favorites">මගේ
+          ප්‍රියතම</span></a>
     </div>
   </nav>
 
@@ -92,19 +102,24 @@
     <div class="hero-content">
       <div class="hero-badge">
         <span>🌸</span>
-        <span data-si="සුභ වෙසක් මංගල්‍යයක් වේවා!" data-en="May you attain the blessings of Vesak!">සුභ වෙසක් මංගල්‍යයක් වේවා!</span>
+        <span data-si="සුභ වෙසක් මංගල්‍යයක් වේවා!" data-en="May you attain the blessings of Vesak!">සුභ වෙසක් මංගල්‍යයක්
+          වේවා!</span>
         <span>🌸</span>
       </div>
       <h1 class="hero-title">
-        <span data-si="ඔබ ළඟ" data-en="Find Dansals">ඔබ ළඟ</span><br/>
+        <span data-si="ඔබ ළඟ" data-en="Find Dansals">ඔබ ළඟ</span><br />
         <span class="gold-text" data-si="දන්සල් සොයන්න" data-en="Near You">දන්සල් සොයන්න</span>
       </h1>
-      <p class="hero-sub" data-si="Sri Lanka පුරා වෙසක් දන්සල්, තොරණ, පන්සල් සහ කලාප සොයා ගන්න" data-en="Find Vesak Dansals, Thoran, temples & Kalapa lanterns across Sri Lanka">Sri Lanka පුරා වෙසක් දන්සල්, තොරණ, පන්සල් සහ කලාප සොයා ගන්න</p>
+      <p class="hero-sub" data-si="Sri Lanka පුරා වෙසක් දන්සල්, තොරණ, පන්ඩල් සහ කලාප සොයා ගන්න"
+        data-en="Find Vesak Dansals, Thoran, temples & Kalapa lanterns across Sri Lanka">Sri Lanka පුරා වෙසක් දන්සල්,
+        තොරණ, පන්ඩල් සහ කලාප සොයා ගන්න</p>
 
       <div class="search-wrap">
         <div class="search-box" id="searchBox">
           <span class="search-pin">📍</span>
-          <input type="text" id="searchInput" placeholder="අසල දන්සල් සොයන්න..." data-si-placeholder="අසල දන්සල් සොයන්න..." data-en-placeholder="Search nearby dansals..." autocomplete="off"/>
+          <input type="text" id="searchInput" placeholder="අසල දන්සල් සොයන්න..."
+            data-si-placeholder="අසල දන්සල් සොයන්න..." data-en-placeholder="Search nearby dansals..."
+            autocomplete="off" />
           <button class="search-btn" onclick="doSearch()" id="searchBtn">
             <span data-si="සොයන්න" data-en="Search">සොයන්න</span>
           </button>
@@ -115,7 +130,8 @@
           <button class="tag" onclick="filterTag(this,'thoran')" data-si="තොරණ" data-en="Thoran">තොරණ</button>
           <button class="tag" onclick="filterTag(this,'pansal')" data-si="පන්සල්" data-en="Pansal">පන්සල්</button>
           <button class="tag" onclick="filterTag(this,'kalapa')" data-si="කලාප" data-en="Kalapa">කලාප</button>
-          <button class="tag" onclick="filterTag(this,'bakthi_geetha')" data-si="බැති ගී" data-en="Bakthi Geetha">බැති ගී</button>
+          <button class="tag" onclick="filterTag(this,'bakthi_geetha')" data-si="බැති ගී" data-en="Bakthi Geetha">බැති
+            ගී</button>
         </div>
       </div>
 
@@ -150,6 +166,10 @@
   <section class="map-wrap" id="map-section">
     <div class="map-header">
       <h2 data-si="🗺️ සජීවී සිතියම" data-en="🗺️ Live Map">🗺️ සජීවී සිතියම</h2>
+      <div class="map-view-toggle" id="mapViewToggle">
+        <button class="mvt-btn active" onclick="toggleMapView('map')" data-si="සිතියම" data-en="Map">සිතියම</button>
+        <button class="mvt-btn" onclick="toggleMapView('list')" data-si="ලැයිස්තුව" data-en="List">ලැයිස්තුව</button>
+      </div>
       <div class="map-filters">
         <button class="mf-btn active" onclick="mapFilter(this,'all')">
           <span>🌐</span> <span data-si="සියල්ල" data-en="All">සියල්ල</span>
@@ -175,7 +195,8 @@
       <!-- Sidebar -->
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-tabs">
-          <button class="stab active" onclick="sideTab(this,'featured')" data-si="ප්‍රධාන" data-en="Featured">ප්‍රධාන</button>
+          <button class="stab active" onclick="sideTab(this,'featured')" data-si="ප්‍රධාන"
+            data-en="Featured">ප්‍රධාන</button>
           <button class="stab" onclick="sideTab(this,'nearby')" data-si="අසල" data-en="Nearby">අසල</button>
           <button class="stab" onclick="sideTab(this,'favorites')" data-si="ප්‍රිය" data-en="Faves">ප්‍රිය</button>
         </div>
@@ -192,7 +213,8 @@
     <div class="section-header">
       <div class="section-ornament">✦ ✦ ✦</div>
       <h2 data-si="ප්‍රසිද්ධ දන්සල්" data-en="Featured Dansals">ප්‍රසිද්ධ දන්සල්</h2>
-      <p data-si="2026 වෙසක් ඉහළ ශ්‍රේණිගත දන්සල් ස්ථාන" data-en="Top-rated Vesak 2026 Dansal locations">2026 වෙසක් ඉහළ ශ්‍රේණිගත දන්සල් ස්ථාන</p>
+      <p data-si="2026 වෙසක් ඉහළ ශ්‍රේණිගත දන්සල් ස්ථාන" data-en="Top-rated Vesak 2026 Dansal locations">2026 වෙසක් ඉහළ
+        ශ්‍රේණිගත දන්සල් ස්ථාන</p>
     </div>
     <div class="dansals-grid" id="dansalsGrid"></div>
   </section>
@@ -201,8 +223,9 @@
   <section class="thoran-section" id="thoran-section">
     <div class="section-header light">
       <div class="section-ornament">☸ ☸ ☸</div>
-      <h2 data-si="තොරණ සහ පන්දල්" data-en="Thoran & Pandals">තොරණ සහ පන්දල්</h2>
-      <p data-si="වෙසක් 2026 හොඳම සැරසිලි සහ ආලෝකකරණයන්" data-en="Best Vesak 2026 Decorations & Illuminations">වෙසක් 2026 හොඳම සැරසිලි සහ ආලෝකකරණයන්</p>
+      <h2 data-si="තොරණ සහ පන්දල්" data-en="Thoran & temples">තොරණ සහ පන්සල්</h2>
+      <p data-si="වෙසක් 2026 හොඳම සැරසිලි සහ ආලෝකකරණයන්" data-en="Best Vesak 2026 Decorations & Illuminations">වෙසක්
+        2026 හොඳම සැරසිලි සහ ආලෝකකරණයන්</p>
     </div>
     <div class="thoran-scroll" id="thoranScroll"></div>
   </section>
@@ -212,7 +235,9 @@
     <div class="add-card">
       <div class="add-icon">🏮</div>
       <h2 data-si="ඔබේ දන්සල එකතු කරන්න" data-en="Add Your Dansal">ඔබේ දන්සල එකතු කරන්න</h2>
-      <p data-si="ඔබේ දන්සල ස්ථානය සිතියමට දමා ජනතාවට දැනුම් දෙන්න" data-en="Pin your dansal on the map and help people find you">ඔබේ දන්සල ස්ථානය සිතියමට දමා ජනතාවට දැනුම් දෙන්න</p>
+      <p data-si="ඔබේ දන්සල ස්ථානය සිතියමට දමා ජනතාවට දැනුම් දෙන්න"
+        data-en="Pin your dansal on the map and help people find you">ඔබේ දන්සල ස්ථානය සිතියමට දමා ජනතාවට දැනුම් දෙන්න
+      </p>
       <button class="add-btn" onclick="openAddModal()">
         <span>+</span>
         <span data-si="දැන් එකතු කරන්න" data-en="Add Now">දැන් එකතු කරන්න</span>
@@ -233,11 +258,19 @@
       <p class="footer-quote">
         "දානය, ශීලය, භාවනාව — වෙසක් ත්‍රිවිධ පිංකමේ සාරය"
       </p>
-      <p class="footer-credit">Designed by <a href="https://www.serendibware.com" target="_blank" style="color:var(--saffron); text-decoration:none;"><strong>SerendibWare</strong></a> · Vesak 2569 BE · 2026</p>
+      <p class="footer-credit">Designed by <a href="https://www.serendibware.com" target="_blank"
+          style="color:var(--saffron); text-decoration:none;"><strong>SerendibWare</strong></a> · Vesak 2569 BE · 2026
+      </p>
       <div class="social-links" style="margin-top: 15px; display: flex; justify-content: center; gap: 15px;">
-        <a href="https://www.linkedin.com/company/serendibware" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s;" onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-muted)'">LinkedIn</a>
-        <a href="https://www.instagram.com/serendibware" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s;" onmouseover="this.style.color='#E1306C'" onmouseout="this.style.color='var(--text-muted)'">Instagram</a>
-        <a href="https://web.facebook.com/people/Serendibware/61589363036048/" target="_blank" style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s;" onmouseover="this.style.color='#1877F2'" onmouseout="this.style.color='var(--text-muted)'">Facebook</a>
+        <a href="https://www.linkedin.com/company/serendibware" target="_blank"
+          style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s;"
+          onmouseover="this.style.color='#0a66c2'" onmouseout="this.style.color='var(--text-muted)'">LinkedIn</a>
+        <a href="https://www.instagram.com/serendibware" target="_blank"
+          style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s;"
+          onmouseover="this.style.color='#E1306C'" onmouseout="this.style.color='var(--text-muted)'">Instagram</a>
+        <a href="https://web.facebook.com/people/Serendibware/61589363036048/" target="_blank"
+          style="color: var(--text-muted); text-decoration: none; font-size: 14px; transition: color 0.3s;"
+          onmouseover="this.style.color='#1877F2'" onmouseout="this.style.color='var(--text-muted)'">Facebook</a>
       </div>
       <div class="footer-flags">
         <span>🇱🇰</span>
@@ -276,9 +309,9 @@
       <h2>🏮 <span data-si="දන්සල් එකතු කරන්න" data-en="Add a Dansal">දන්සල් එකතු කරන්න</span></h2>
       <form class="modal-form" onsubmit="submitDansal(event)">
         <label data-si="දන්සල් නම" data-en="Dansal Name">දන්සල් නම</label>
-        <input type="text" placeholder="e.g. Kelaniya Maha Dansal" required/>
+        <input type="text" placeholder="e.g. Kelaniya Maha Dansal" required />
         <label data-si="ස්ථානය" data-en="Location">ස්ථානය</label>
-        <input type="text" placeholder="e.g. Kelaniya, Colombo" required/>
+        <input type="text" placeholder="e.g. Kelaniya, Colombo" required />
         <label data-si="වර්ගය" data-en="Type">වර්ගය</label>
         <select>
           <option value="food">🍚 ආහාර දන්සල | Food Dansal</option>
@@ -288,30 +321,35 @@
           <option value="bakthi_geetha">🎶 බැති ගී | Bakthi Geetha</option>
         </select>
         <label data-si="විශේෂතා" data-en="Specials">විශේෂතා</label>
-        <input type="text" placeholder="e.g. කිරිබත්, තේ, අයිස්ක්‍රීම්"/>
+        <input type="text" placeholder="e.g. කිරිබත්, තේ, අයිස්ක්‍රීම්" />
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div>
             <label data-si="දිනය" data-en="Date">දිනය</label>
-            <input type="date" id="dansalDate" required/>
+            <input type="date" id="dansalDate" required />
           </div>
           <div>
             <label>&nbsp;</label>
           </div>
           <div>
             <label data-si="ආරම්භක වේලාව" data-en="Start Time">ආරම්භක වේලාව</label>
-            <input type="time" id="dansalStartTime" required/>
+            <input type="time" id="dansalStartTime" required />
           </div>
           <div>
             <label data-si="අවසන් වේලාව" data-en="End Time">අවසන් වේලාව</label>
-            <input type="time" id="dansalEndTime" required/>
+            <input type="time" id="dansalEndTime" required />
           </div>
         </div>
-        
-        <label data-si="සිතියමේ ස්ථානය පෙන්වන්න (Pin)" data-en="Pin Location on Map">සිතියමේ ස්ථානය පෙන්වන්න (Pin)</label>
-        <div id="modalMap" style="width: 100%; height: 180px; border-radius: 8px; z-index: 1; border: 1px solid var(--glass-border);"></div>
-        <p style="font-size:11px; color:var(--saffron); margin-top:-8px;" data-si="සිතියම මත ක්ලික් කර නිවැරදි ස්ථානය තෝරන්න" data-en="Click on the map to pin the exact location">සිතියම මත ක්ලික් කර නිවැරදි ස්ථානය තෝරන්න</p>
-        <input type="hidden" id="modalLat" required/>
-        <input type="hidden" id="modalLng" required/>
+
+        <label data-si="සිතියමේ ස්ථානය පෙන්වන්න (Pin)" data-en="Pin Location on Map">සිතියමේ ස්ථානය පෙන්වන්න
+          (Pin)</label>
+        <div id="modalMap"
+          style="width: 100%; height: 180px; border-radius: 8px; z-index: 1; border: 1px solid var(--glass-border);">
+        </div>
+        <p style="font-size:11px; color:var(--saffron); margin-top:-8px;"
+          data-si="සිතියම මත ක්ලික් කර නිවැරදි ස්ථානය තෝරන්න" data-en="Click on the map to pin the exact location">
+          සිතියම මත ක්ලික් කර නිවැරදි ස්ථානය තෝරන්න</p>
+        <input type="hidden" id="modalLat" required />
+        <input type="hidden" id="modalLng" required />
 
         <button type="submit" class="modal-submit">
           <span>✦</span>
@@ -325,7 +363,9 @@
   <div class="toast" id="toast"></div>
 
   <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="app.js"></script>
 </body>
+
 </html>
