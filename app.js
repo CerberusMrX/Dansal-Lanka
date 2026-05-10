@@ -42,16 +42,35 @@ function renderAllUI() {
 // ═══ LEAFLET MAP ═══
 function initLeafletMap() {
   // Center map on Sri Lanka
-  map = L.map('map').setView([7.8731, 80.7718], 7);
+  map = L.map('map', {
+    zoomControl: false // Move to bottom right
+  }).setView([7.8731, 80.7718], 7);
 
-  // Add standard, clear OpenStreetMap tiles (looks very similar to Google Maps)
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
+  // High-Detail Hybrid Tiles (Satellite + Streets)
+  // We use Esri Imagery + Labels for reliable full-detail maps
+  const esriImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
   }).addTo(map);
 
+  const esriLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Labels &copy; Esri'
+  }).addTo(map);
+
+  // Standard Street Tiles
+  const streetTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  });
+
+  // Layer control
+  const baseMaps = {
+    "Satellite Hybrid": L.layerGroup([esriImagery, esriLabels]),
+    "Standard Streets": streetTiles
+  };
+  
+  L.control.layers(baseMaps, null, { position: 'topright' }).addTo(map);
+
   // Map controls
-  map.zoomControl.setPosition('bottomright');
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
 }
 
 function renderMapPins() {
@@ -201,7 +220,13 @@ function renderSidebarCards() {
 
 function panToMap(lat, lng, name) {
   if(!lat || !lng) return;
-  map.flyTo([lat, lng], 14);
+  
+  // On mobile, if we are in list view, switch back to map
+  if (window.innerWidth <= 768) {
+    toggleMapView('map');
+  }
+  
+  map.flyTo([lat, lng], 16, { duration: 1.5 });
   showToast(`📍 ${name}`);
 }
 
@@ -343,9 +368,53 @@ function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-function doSearch() {
+function toggleMapView(view) {
+  const layout = document.querySelector('.map-layout');
+  const btns = document.querySelectorAll('.mvt-btn');
+  
+  if (view === 'list') {
+    layout.classList.add('view-list');
+    btns[0].classList.remove('active');
+    btns[1].classList.add('active');
+  } else {
+    layout.classList.remove('view-list');
+    btns[0].classList.add('active');
+    btns[1].classList.remove('active');
+    setTimeout(() => map.invalidateSize(), 100);
+  }
+}
+
+async function doSearch() {
   const q = document.getElementById('searchInput').value;
-  if (q) showToast(`🔍 "${q}" ${currentLang === 'si' ? 'සොයමින්...' : 'Searching...'}`);
+  if (!q) return;
+
+  showToast(`🔍 "${q}" ${currentLang === 'si' ? 'සොයමින්...' : 'Searching...'}`);
+
+  try {
+    const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q + ', Sri Lanka')}`);
+    const data = await res.json();
+
+    if (data && data.length > 0) {
+      const result = data[0];
+      const lat = parseFloat(result.lat);
+      const lon = parseFloat(result.lon);
+
+      // Add a temporary search marker
+      const searchMarker = L.marker([lat, lon]).addTo(map)
+        .bindPopup(`<strong>${result.display_name.split(',')[0]}</strong>`)
+        .openPopup();
+
+      map.flyTo([lat, lon], 14);
+      
+      // Remove marker after 10 seconds
+      setTimeout(() => map.removeLayer(searchMarker), 10000);
+    } else {
+      showToast(currentLang === 'si' ? '❌ කිසිවක් හමු නොවීය' : '❌ No results found');
+    }
+  } catch (err) {
+    console.error("Search error:", err);
+    showToast('❌ Search failed');
+  }
 }
 
 function zoomMap(factor) {
@@ -450,8 +519,8 @@ function openAddModal() {
   setTimeout(() => {
     if (!modalMapInstance) {
       modalMapInstance = L.map('modalMap').setView([6.9271, 79.8612], 12); // Default to Colombo
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap'
+      L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+        attribution: '&copy; Google Maps'
       }).addTo(modalMapInstance);
       
       modalMapInstance.on('click', function(e) {
